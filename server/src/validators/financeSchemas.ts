@@ -42,5 +42,8 @@ export const createExpenseSchema = z.object({
 export const updateExpenseSchema = createExpenseSchema.partial();
 
 export type CreateSalaryInput = z.infer<typeof createSalarySchema>;
+export type MarkSalaryPaidInput = z.infer<typeof markSalaryPaidSchema>;
 export type CreateRevenueInput = z.infer<typeof createRevenueSchema>;
+export type UpdateRevenueInput = z.infer<typeof updateRevenueSchema>;
 export type CreateExpenseInput = z.infer<typeof createExpenseSchema>;
+export type UpdateExpenseInput = z.infer<typeof updateExpenseSchema>;
