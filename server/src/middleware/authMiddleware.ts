@@ -2,10 +2,12 @@ import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env.js';
 
-export type AuthRole = 'ADMIN' | 'STAFF';
+export type AuthRole = 'ADMIN' | 'MANAGER' | 'STAFF';
 
 export type AuthUser = {
   id: string;
+  email: string;
+  fullName: string;
   role: AuthRole;
   employeeId?: string;
 };

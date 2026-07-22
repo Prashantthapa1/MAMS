@@ -4,6 +4,21 @@ export type ApiResponse<T> = {
   message?: string;
 };
 
+export type AuthRole = 'ADMIN' | 'MANAGER' | 'STAFF';
+
+export type AuthUser = {
+  id: string;
+  email: string;
+  fullName: string;
+  role: AuthRole;
+  employeeId?: string;
+};
+
+export type LoginResponse = {
+  token: string;
+  user: AuthUser;
+};
+
 export type DashboardData = {
   summary: {
     totalEmployees: number;
@@ -28,10 +43,39 @@ export type Employee = {
   joinDate: string;
   monthlySalary: number;
   status: 'Active' | 'Inactive';
+  avatarUrl: string | null;
+};
+
+export type EmployeeProfile = {
+  employee: Employee;
+  attendanceHistory: Array<{
+    id: string;
+    date: string;
+    checkInTime: string | null;
+    checkOutTime: string | null;
+    workingHours: number;
+    status: 'Present' | 'Absent';
+  }>;
+  leaveHistory: Array<{
+    id: string;
+    leaveType: 'Sick' | 'Casual' | 'Annual';
+    startDate: string;
+    endDate: string;
+    reason: string;
+    status: 'Pending' | 'Approved' | 'Rejected';
+  }>;
+  salaryHistory: Array<{
+    id: string;
+    monthlySalary: number;
+    paymentMonth: string;
+    paymentStatus: 'Paid' | 'Pending';
+    paymentDate: string | null;
+  }>;
 };
 
 export type Attendance = {
   id: string;
+  employeeId: string;
   employeeName: string;
   date: string;
   checkInTime: string | null;
@@ -42,6 +86,7 @@ export type Attendance = {
 
 export type LeaveRequest = {
   id: string;
+  employeeId: string;
   employeeName: string;
   leaveType: 'Sick' | 'Casual' | 'Annual';
   startDate: string;
@@ -52,6 +97,7 @@ export type LeaveRequest = {
 
 export type Salary = {
   id: string;
+  employeeId: string;
   employeeName: string;
   monthlySalary: number;
   paymentMonth: string;
@@ -91,3 +137,5 @@ export type Settings = {
   companyAddress: string;
   currency: string;
 };
+
+export type ManagedUser = AuthUser & { position: string | null };
