@@ -59,7 +59,11 @@ npm run db:migrate --prefix server
 npm run db:seed --prefix server
 ```
 
-Seed credentials: `admin@example.com` / `admin123` and `staff@example.com` / `staff123`.
+Seed credentials:
+
+- Admin: `admin@example.com` / `admin123`
+- Manager: `manager@example.com` / `manager123`
+- Staff: `staff@example.com` / `staff123`
 
 ## Staff Invitations and Access
 

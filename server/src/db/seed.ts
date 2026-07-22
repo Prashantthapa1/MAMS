@@ -11,6 +11,7 @@ const employees = [
 
 async function main() {
   const adminHash = await bcrypt.hash('admin123', 12);
+  const managerHash = await bcrypt.hash('manager123', 12);
   const staffHash = await bcrypt.hash('staff123', 12);
   const client = await pool.connect();
   try {
@@ -21,13 +22,14 @@ async function main() {
       employeeIds.set(email, result.rows[0].id);
     }
     await client.query(`INSERT INTO users (email, password_hash, role) VALUES ('admin@example.com', $1, 'ADMIN') ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash, role = 'ADMIN', updated_at = NOW()`, [adminHash]);
+    await client.query(`INSERT INTO users (email, password_hash, role, employee_id) VALUES ('manager@example.com', $1, 'MANAGER', $2) ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash, employee_id = EXCLUDED.employee_id, role = 'MANAGER', updated_at = NOW()`, [managerHash, employeeIds.get('aarav@example.com')]);
     await client.query(`INSERT INTO users (email, password_hash, role, employee_id) VALUES ('staff@example.com', $1, 'STAFF', $2) ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash, employee_id = EXCLUDED.employee_id, role = 'STAFF', updated_at = NOW()`, [staffHash, employeeIds.get('maya@example.com')]);
     await client.query(`INSERT INTO revenue (revenue_date, description, amount) VALUES (CURRENT_DATE, 'Daily sales', 39800), (CURRENT_DATE - 1, 'Daily sales', 44500) ON CONFLICT DO NOTHING`);
     await client.query(`INSERT INTO expenses (expense_date, category, description, amount) VALUES (CURRENT_DATE, 'Other', 'Office supplies', 5600), (CURRENT_DATE - 1, 'Rent', 'Monthly rent portion', 12000) ON CONFLICT DO NOTHING`);
     await client.query(`INSERT INTO attendance (employee_id, work_date, check_in_time, check_out_time, working_hours, status) VALUES ($1, CURRENT_DATE, '09:00', '17:30', 8.5, 'Present'), ($2, CURRENT_DATE, NULL, NULL, 0, 'Absent') ON CONFLICT (employee_id, work_date) DO NOTHING`, [employeeIds.get('aarav@example.com'), employeeIds.get('maya@example.com')]);
     await client.query(`INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, reason, status) VALUES ($1, 'Casual', CURRENT_DATE + 2, CURRENT_DATE + 2, 'Family work', 'Pending') ON CONFLICT DO NOTHING`, [employeeIds.get('sita@example.com')]);
     await client.query('COMMIT');
-    console.log('Seed data created. Admin: admin@example.com / admin123');
+    console.log('Seed data created. Demo roles: admin, manager, and staff.');
   } catch (error) { await client.query('ROLLBACK'); throw error; } finally { client.release(); await pool.end(); }
 }
 main().catch((error: unknown) => { console.error(error); process.exit(1); });
