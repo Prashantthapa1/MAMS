@@ -37,11 +37,11 @@ Status values:
 - Complete: Add global error handler
 - Complete: Add health route
 - Complete: Add auth middleware skeleton
-- Pending: Add PostgreSQL connection and query helpers
-- Pending: Add database schema migrations or SQL setup scripts
+- Complete: Add PostgreSQL connection and query helpers
+- Complete: Add database schema migrations or SQL setup scripts
 - Pending: Add seed script
-- Pending: Add Zod validation schemas
-- Pending: Add tests if requested
+- Complete: Add Zod validation schemas
+- Complete: Add tests if requested
 
 ## Authentication
 - Not Started: Implement login
