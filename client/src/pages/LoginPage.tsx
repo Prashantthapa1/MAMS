@@ -1,34 +1,13 @@
+import { Eye, EyeOff, LockKeyhole, LogIn, Mail, UsersRound } from 'lucide-react';
+import { useState, type FormEvent } from 'react';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
+
+type LocationState = { from?: { pathname?: string } };
 export function LoginPage() {
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-zinc-100 px-4">
-      <section className="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-semibold text-zinc-950">Sign in</h1>
-        <p className="mt-1 text-sm text-zinc-600">Use your employee account to continue.</p>
-        <form className="mt-6 space-y-4">
-          <label className="block">
-            <span className="text-sm font-medium text-zinc-700">Email</span>
-            <input
-              className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
-              type="email"
-              placeholder="admin@example.com"
-            />
-          </label>
-          <label className="block">
-            <span className="text-sm font-medium text-zinc-700">Password</span>
-            <input
-              className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
-              type="password"
-              placeholder="admin123"
-            />
-          </label>
-          <button
-            className="w-full rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white hover:bg-zinc-800"
-            type="submit"
-          >
-            Login
-          </button>
-        </form>
-      </section>
-    </main>
-  );
+  const { user, login } = useAuth(); const navigate = useNavigate(); const location = useLocation(); const redirectTo = (location.state as LocationState | null)?.from?.pathname ?? '/dashboard';
+  const [email, setEmail] = useState(''); const [password, setPassword] = useState(''); const [showPassword, setShowPassword] = useState(false); const [remember, setRemember] = useState(true); const [error, setError] = useState(''); const [isSubmitting, setIsSubmitting] = useState(false);
+  if (user) return <Navigate to={redirectTo} replace />;
+  async function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setError(''); setIsSubmitting(true); try { await login({ email, password }); navigate(redirectTo, { replace: true }); } catch { setError('We could not sign you in. Check your email and password, then try again.'); } finally { setIsSubmitting(false); } }
+  return <main className="flex min-h-screen items-center justify-center bg-[#f7f7ff] px-4 py-10 text-slate-900"><section className="w-full max-w-[550px]"><div className="mb-8 flex flex-col items-center text-center"><span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#0053db] text-white shadow-lg shadow-blue-700/20"><UsersRound size={24} /></span><h1 className="mt-4 text-3xl font-bold tracking-tight">StaffSync Pro</h1><p className="mt-1 text-base text-slate-600">Admin Console Access</p></div><div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-10"><h2 className="text-2xl font-semibold">Welcome back</h2><p className="mt-2 text-sm text-slate-600">Please enter your credentials to continue.</p><form className="mt-7 space-y-5" onSubmit={submit}><label className="block text-sm font-medium text-slate-700">Email Address<span className="relative mt-2 block"><Mail className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} /><input className="w-full rounded-md border border-slate-300 bg-[#fbfbff] py-3 pl-11 pr-4 outline-none transition focus:border-[#0053db] focus:ring-2 focus:ring-blue-100" type="email" autoComplete="email" placeholder="admin@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required /></span></label><label className="block text-sm font-medium text-slate-700"><span className="flex justify-between"><span>Password</span><button type="button" className="font-medium text-[#0053db] hover:underline" onClick={() => setError('Password recovery is not configured yet. Please contact your administrator.')}>Forgot Password?</button></span><span className="relative mt-2 block"><LockKeyhole className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} /><input className="w-full rounded-md border border-slate-300 bg-[#fbfbff] py-3 pl-11 pr-11 outline-none transition focus:border-[#0053db] focus:ring-2 focus:ring-blue-100" type={showPassword ? 'text' : 'password'} autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required /><button className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-slate-500 hover:text-slate-900" type="button" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? 'Hide password' : 'Show password'}>{showPassword ? <EyeOff size={19} /> : <Eye size={19} />}</button></span></label><label className="flex items-center gap-2 text-sm text-slate-700"><input className="h-4 w-4 accent-[#0053db]" type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />Remember this device</label>{error && <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">{error}</p>}<button className="flex w-full items-center justify-center gap-2 rounded-md bg-[#0053db] px-4 py-3 text-sm font-semibold text-white shadow-md shadow-blue-700/20 hover:bg-[#004ac6] disabled:opacity-60" disabled={isSubmitting}><LogIn size={17} />{isSubmitting ? 'Signing in...' : 'Sign In'}</button></form><div className="mt-7 border-t border-slate-200 pt-6 text-center text-sm text-slate-600">Need access? <button type="button" className="font-semibold text-[#0053db] hover:underline" onClick={() => setError('Account requests are handled by your administrator.')}>Contact IT Support</button></div></div><footer className="mt-7 flex justify-center gap-5 text-xs text-slate-500"><button type="button" onClick={() => setError('Privacy policy is not available yet.')}>Privacy Policy</button><button type="button" onClick={() => setError('Terms of service are not available yet.')}>Terms of Service</button><button type="button" onClick={() => setError('Help Center is not available yet.')}>Help Center</button></footer></section></main>;
 }

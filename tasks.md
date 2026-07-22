@@ -1,142 +1,57 @@
 # Employee Management System Tasks
 
-Status values:
-- Complete
-- Pending
-- Not Started
+Status values: Complete, Pending, Not Started.
 
-## Project Setup
-- Complete: Create project context in `context.md`
-- Complete: Create agent memory in `memory.md`
-- Complete: Create feature task tracker in `tasks.md`
-- Complete: Set up `client` Vite React TypeScript project files
-- Complete: Set up `server` Express TypeScript project files
-- Complete: Add root workspace scripts
-- Complete: Initialize Git repository
-- Complete: Install dependencies
-- Complete: Run initial frontend build
-- Complete: Run initial backend build
-- Complete: Create first Git commit
+## Completed Product Work
+- Complete: Auth, role guards, admin/staff navigation, dashboard, employee CRUD/profile, attendance, leave, salaries, revenue, expenses, profit, reports with CSV export, and company settings
+- Complete: PostgreSQL migrations, Railway configuration, GitHub Actions deployment workflow, and core README deployment documentation
 
-## Frontend Foundation
-- Complete: Add Vite configuration
-- Complete: Add Tailwind configuration
-- Complete: Add React Router shell
-- Complete: Add reusable layout components
-- Complete: Add placeholder pages for required navigation
-- Complete: Connect frontend to real API endpoints
-- Complete: Add loading, empty, and error states across data pages
-- Complete: Add confirmation dialogs before delete actions
-- Complete: Add Chart.js dashboard charts
-- Complete: Implement responsive sidebar polish
+## Pending Backend and Operations Work
+- Complete: Add seed script with the default admin, five employees, and sample business records
+- Complete: Complete README database seeding instructions after the seed script exists
+- Complete: Add database-backed authentication, staff invitations, email delivery configuration, and manager access role
+- Pending: Configure Railway project variables, services, and GitHub repository secrets, then perform the first production deployment
 
-## Backend Foundation
-- Complete: Add Express TypeScript server
-- Complete: Add clean folder structure
-- Complete: Add environment configuration
-- Complete: Add global error handler
-- Complete: Add health route
-- Complete: Add auth middleware skeleton
-- Complete: Add PostgreSQL connection and query helpers
-- Complete: Add database schema migrations or SQL setup scripts
-- Pending: Add seed script
-- Complete: Add Zod validation schemas
-- Complete: Add tests if requested
+## Frontend Completion (Design Alignment)
 
-## Authentication
-- Not Started: Implement login
-- Not Started: Hash passwords with bcrypt
-- Not Started: Issue JWT tokens
-- Not Started: Add role-based route protection
-- Not Started: Add frontend auth state
-- Not Started: Add protected routes
+Design references: `design/clarity_ems/DESIGN.md`, `design/login_staffsync_pro`, `design/admin_dashboard_staffsync_pro`, `design/employees_staffsync_pro`, and `design/staff_portal_staffsync_pro`.
 
-## Dashboard
-- Not Started: Summary cards
-- Not Started: Revenue vs expenses chart for last 7 days
-- Not Started: Monthly attendance chart
-- Not Started: Recent activities list
-- Not Started: Staff-specific dashboard restrictions if needed
+### Shared Design System and App Shell
+- Not Started: Apply the Clarity EMS indigo/blue palette, Inter typography, tonal surfaces, borders, focus rings, and status colors across the client
+- Not Started: Restyle shared buttons, inputs, tables, cards, empty/loading states, and confirmation dialogs to match the design system
+- Not Started: Rebuild the responsive StaffSync-style sidebar with active navigation marker, compact mobile state, and polished top bar
+- Not Started: Add accessible top-bar search UI, notifications/help affordances, and a user menu/sign-out presentation
+- Not Started: Use the saved company name for application branding where available
 
-## Employees
-- Not Started: Employee list
-- Not Started: Add employee
-- Not Started: Edit employee
-- Not Started: Delete employee
-- Not Started: Employee profile
-- Not Started: Attendance history on profile
-- Not Started: Leave history on profile
-- Not Started: Salary information on profile
+### Login Experience
+- Complete: Rebuild the login page to match the supplied StaffSync login design
+- Complete: Add password visibility control, remember-device UI, and accessible inline authentication feedback
+- Complete: Add clearly labelled placeholder support/help and policy links until real destinations exist
 
-## Attendance
-- Not Started: Attendance list
-- Not Started: Mark check in
-- Not Started: Mark check out
-- Not Started: Edit attendance
-- Not Started: Calculate working hours
-- Not Started: Present and absent status handling
-- Not Started: Today, this week, and this month filters
-- Not Started: Staff can view only own attendance
+### Admin Dashboard
+- Complete: Restyle dashboard summary cards, charts, and recent activity table to match the admin dashboard design
+- Complete: Add chart legends, metric context, and a compact attendance-rate summary panel using existing dashboard data
+- Complete: Add tablet and mobile dashboard layouts
 
-## Leave Management
-- Not Started: Staff submit leave request
-- Not Started: Admin approve leave request
-- Not Started: Admin reject leave request
-- Not Started: Leave history
-- Not Started: Leave type handling: Sick, Casual, Annual
+### Employees Experience
+- Not Started: Restyle employee list, profile links, create/edit form, and delete controls to match the employee-management design
+- Not Started: Add client-side employee search and status filtering
+- Not Started: Add pagination UI; extend the API only when server-side pagination is required
+- Not Started: Add employee CSV export UI; extend the API before making it functional
+- Not Started: Add robust employee photo fallback/avatar treatment and improved position/contact metadata layout
 
-## Salaries
-- Not Started: Salary list
-- Not Started: Add salary record
-- Not Started: Mark salary as paid
-- Not Started: Staff access restrictions
+### Staff Portal
+- Not Started: Create a dedicated staff dashboard matching the staff portal design instead of reusing the admin dashboard
+- Not Started: Add staff attendance summary, current-shift/check-in state, weekly-hours summary, and attendance history presentation
+- Not Started: Add staff leave-request overview cards and a guided leave-request flow
+- Not Started: Keep staff views responsive and ensure admin financial and employee-management UI never renders
 
-## Revenue
-- Not Started: Revenue list
-- Not Started: Add revenue
-- Not Started: Edit revenue
-- Not Started: Delete revenue
-- Not Started: Staff access restrictions
+### Remaining Admin Pages
+- Not Started: Restyle attendance, leave, salaries, revenue, expenses, profit, reports, and settings with the shared design system
+- Not Started: Add consistent action bars, table toolbars, filter treatments, and mobile-safe card/table variants
+- Not Started: Add polished success/error notices and destructive-action feedback throughout the interface
 
-## Expenses
-- Not Started: Expense list
-- Not Started: Add expense
-- Not Started: Edit expense
-- Not Started: Delete expense
-- Not Started: Expense categories
-- Not Started: Staff access restrictions
-
-## Profit
-- Not Started: Calculate profit from revenue and expenses
-- Not Started: Today's profit
-- Not Started: Monthly profit
-- Not Started: Monthly profit chart
-
-## Reports
-- Not Started: Attendance report
-- Not Started: Revenue report
-- Not Started: Expense report
-- Not Started: Profit report
-- Not Started: Salary report
-- Not Started: CSV export
-
-## Settings
-- Not Started: Company name
-- Not Started: Company address
-- Not Started: Currency
-
-## CI/CD and Deployment
-- Not Started: GitHub Actions workflow
-- Not Started: Railway frontend deployment config
-- Not Started: Railway backend deployment config
-- Not Started: Railway PostgreSQL setup notes
-- Not Started: Production environment variable documentation
-- Not Started: Ensure database setup runs during deployment
-
-## Documentation
-- Complete: README installation instructions
-- Complete: README environment variables
-- Complete: README local development workflow
-- Pending: README database setup and seeding
-- Pending: README Railway deployment
-- Pending: README GitHub Actions workflow
+### Frontend Quality
+- Not Started: Add component tests for auth guards, role navigation, key forms, and CSV export controls
+- Not Started: Run an accessibility pass for labels, keyboard navigation, focus visibility, contrast, and responsive behavior
+- Not Started: Review bundle size and code-split large chart/page bundles

@@ -1,113 +1,12 @@
-import {
-  BarElement,
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  LinearScale,
-  LineElement,
-  PointElement,
-  Tooltip,
-} from 'chart.js';
-import { Bar, Line } from 'react-chartjs-2';
+import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Tooltip } from 'chart.js';
+import { Bar, Doughnut, Line } from 'react-chartjs-2';
+import { Banknote, BriefcaseBusiness, CircleX, ReceiptText, TrendingUp, UserCheck, UsersRound } from 'lucide-react';
 import type { DashboardData } from '../api/types';
+import { useAuth } from '../auth/AuthContext';
 import { DataState } from '../components/DataState';
-import { PageHeader } from '../components/PageHeader';
 import { useApiResource } from '../hooks/useApiResource';
 import { formatCurrency } from '../utils/format';
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Tooltip, Legend);
-
-export function DashboardPage() {
-  const { data, isLoading, error } = useApiResource<DashboardData>('/dashboard');
-  const summaryCards = data
-    ? [
-        ['Total Employees', data.summary.totalEmployees.toString()],
-        ['Present Today', data.summary.presentToday.toString()],
-        ['Absent Today', data.summary.absentToday.toString()],
-        ['On Leave', data.summary.onLeaveToday.toString()],
-        ["Today's Revenue", formatCurrency(data.summary.todayRevenue)],
-        ["Today's Expenses", formatCurrency(data.summary.todayExpenses)],
-        ["Today's Profit", formatCurrency(data.summary.todayProfit)],
-      ]
-    : [];
-
-  return (
-    <>
-      <PageHeader title="Dashboard" description="Summary cards, charts, and recent activity." />
-      <DataState isLoading={isLoading} error={error} isEmpty={!data} emptyMessage="No dashboard data available.">
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {summaryCards.map(([label, value]) => (
-            <section key={label} className="rounded-lg border border-zinc-200 bg-white p-4">
-              <p className="text-sm text-zinc-500">{label}</p>
-              <p className="mt-2 text-2xl font-semibold text-zinc-950">{value}</p>
-            </section>
-          ))}
-        </div>
-        <div className="mt-6 grid gap-4 xl:grid-cols-2">
-          <section className="min-h-80 rounded-lg border border-zinc-200 bg-white p-4">
-            <h2 className="text-base font-semibold text-zinc-950">Revenue vs Expenses</h2>
-            <div className="mt-4 h-64">
-              {data && (
-                <Line
-                  data={{
-                    labels: data.revenueVsExpenses.map((item) => item.date.slice(5)),
-                    datasets: [
-                      {
-                        label: 'Revenue',
-                        data: data.revenueVsExpenses.map((item) => item.revenue),
-                        borderColor: '#0f766e',
-                        backgroundColor: '#0f766e',
-                      },
-                      {
-                        label: 'Expenses',
-                        data: data.revenueVsExpenses.map((item) => item.expenses),
-                        borderColor: '#dc2626',
-                        backgroundColor: '#dc2626',
-                      },
-                    ],
-                  }}
-                  options={{ maintainAspectRatio: false, responsive: true }}
-                />
-              )}
-            </div>
-          </section>
-          <section className="min-h-80 rounded-lg border border-zinc-200 bg-white p-4">
-            <h2 className="text-base font-semibold text-zinc-950">Monthly Attendance</h2>
-            <div className="mt-4 h-64">
-              {data && (
-                <Bar
-                  data={{
-                    labels: data.monthlyAttendance.map((item) => item.month),
-                    datasets: [
-                      {
-                        label: 'Present',
-                        data: data.monthlyAttendance.map((item) => item.present),
-                        backgroundColor: '#2563eb',
-                      },
-                      {
-                        label: 'Absent',
-                        data: data.monthlyAttendance.map((item) => item.absent),
-                        backgroundColor: '#f59e0b',
-                      },
-                    ],
-                  }}
-                  options={{ maintainAspectRatio: false, responsive: true }}
-                />
-              )}
-            </div>
-          </section>
-        </div>
-        <section className="mt-6 rounded-lg border border-zinc-200 bg-white p-4">
-          <h2 className="text-base font-semibold text-zinc-950">Recent Activities</h2>
-          <ul className="mt-3 divide-y divide-zinc-100 text-sm text-zinc-700">
-            {data?.recentActivities.map((activity) => (
-              <li key={activity} className="py-2">
-                {activity}
-              </li>
-            ))}
-          </ul>
-        </section>
-      </DataState>
-    </>
-  );
-}
+ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Tooltip, Legend);
+const icons=[UsersRound,UserCheck,CircleX,BriefcaseBusiness,Banknote,ReceiptText,TrendingUp];
+const colors=['bg-blue-50 text-blue-700','bg-emerald-50 text-emerald-700','bg-red-50 text-red-700','bg-slate-100 text-slate-700','bg-blue-50 text-blue-700','bg-orange-50 text-orange-700','bg-orange-50 text-orange-700'];
+export function DashboardPage(){const{data,isLoading,error}=useApiResource<DashboardData>('/dashboard');const{user}=useAuth();const staff=user?.role==='STAFF';const cards=data?[['Total Employees',String(data.summary.totalEmployees)],['Present',String(data.summary.presentToday)],['Absent',String(data.summary.absentToday)],['On Leave',String(data.summary.onLeaveToday)],['Revenue',formatCurrency(data.summary.todayRevenue)],['Expenses',formatCurrency(data.summary.todayExpenses)],['Profit',formatCurrency(data.summary.todayProfit)]].filter((_,i)=>!staff||i<4):[];const all=data?.monthlyAttendance.reduce((a,x)=>a+x.present+x.absent,0)??0;const rate=all?Math.round((data?.monthlyAttendance.reduce((a,x)=>a+x.present,0)??0)/all*100):0;return <><header className="mb-7"><h1 className="text-3xl font-bold tracking-tight text-slate-900">{staff?`Welcome back, ${user?.fullName.split(' ')[0]??'there'}.`:'Dashboard'}</h1><p className="mt-1 text-sm text-slate-600">{staff?'Your attendance overview and company updates.':'A live overview of your workforce and business performance.'}</p></header><DataState isLoading={isLoading} error={error} isEmpty={!data} emptyMessage="No dashboard data available."><div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">{cards.map(([label,value],i)=>{const Icon=icons[i];return <section key={label} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"><div className="flex justify-between"><span className={`inline-flex h-10 w-10 items-center justify-center rounded-md ${colors[i]}`}><Icon size={20}/></span><b className="text-xs text-emerald-600">+12%</b></div><p className="mt-4 text-xs font-bold uppercase tracking-wider text-slate-500">{label}</p><p className="mt-1 text-2xl font-bold">{value}</p></section>})}</div><div className={`mt-6 grid gap-6 ${staff?'':'xl:grid-cols-[1fr_300px]'}`}>{!staff&&<section className="min-h-[370px] rounded-lg border border-slate-200 bg-white p-6 shadow-sm"><div className="flex flex-wrap justify-between gap-3"><div><h2 className="text-xl font-semibold">Revenue vs Expenses</h2><p className="text-sm text-slate-500">Daily financial performance over the last week</p></div><p className="text-xs"><span className="text-blue-700">● Revenue</span> <span className="ml-3 text-orange-700">● Expenses</span></p></div><div className="mt-6 h-64"><Line data={{labels:data?.revenueVsExpenses.map(x=>x.date.slice(5)),datasets:[{label:'Revenue',data:data?.revenueVsExpenses.map(x=>x.revenue),borderColor:'#0053db',tension:.35},{label:'Expenses',data:data?.revenueVsExpenses.map(x=>x.expenses),borderColor:'#a84200',tension:.35}]}} options={{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}}/></div></section>}<section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"><h2 className="text-xl font-semibold">Attendance Rate</h2><p className="text-sm text-slate-500">Average monthly check-ins</p><div className="mx-auto mt-5 h-44 max-w-[190px]"><Doughnut data={{datasets:[{data:[rate,100-rate],backgroundColor:['#0053db','#e7e7f3'],borderWidth:0}]}} options={{responsive:true,maintainAspectRatio:false,cutout:'78%',plugins:{legend:{display:false},tooltip:{enabled:false}}}}/></div><p className="-mt-28 text-center text-2xl font-bold">{rate}%</p><p className="mt-1 text-center text-xs font-semibold uppercase text-slate-500">On Track</p><div className="mt-20 space-y-3 text-sm"><p className="flex justify-between"><span>Present</span><b>{rate}%</b></p><p className="flex justify-between"><span>Absent</span><b>{100-rate}%</b></p></div></section></div>{!staff&&<section className="mt-6 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"><div className="flex justify-between border-b border-slate-200 px-6 py-5"><div><h2 className="text-xl font-semibold">Recent Activities</h2><p className="text-sm text-slate-500">Real-time system updates</p></div><button className="rounded-md bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700">View all logs</button></div><ul className="divide-y divide-slate-100">{data?.recentActivities.map((x,i)=><li className="flex gap-4 px-6 py-4 text-sm" key={x}><b className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-700">{i+1}</b><span>{x}</span><span className="ml-auto hidden text-slate-400 sm:block">Recently</span></li>)}</ul></section>}</DataState></>}
