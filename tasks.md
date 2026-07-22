@@ -34,16 +34,16 @@ Design references: `design/clarity_ems/DESIGN.md`, `design/login_staffsync_pro`,
 - Complete: Add tablet and mobile dashboard layouts
 
 ### Employees Experience
-- Not Started: Restyle employee list, profile links, create/edit form, and delete controls to match the employee-management design
-- Not Started: Add client-side employee search and status filtering
-- Not Started: Add pagination UI; extend the API only when server-side pagination is required
+- Complete: Restyle employee list, profile links, create/edit form, and delete controls to match the employee-management design
+- Complete: Add client-side employee search and status filtering
+- Complete: Add pagination UI; extend the API only when server-side pagination is required
 - Not Started: Add employee CSV export UI; extend the API before making it functional
 - Not Started: Add robust employee photo fallback/avatar treatment and improved position/contact metadata layout
 
 ### Staff Portal
-- Not Started: Create a dedicated staff dashboard matching the staff portal design instead of reusing the admin dashboard
-- Not Started: Add staff attendance summary, current-shift/check-in state, weekly-hours summary, and attendance history presentation
-- Not Started: Add staff leave-request overview cards and a guided leave-request flow
+- Complete: Create a dedicated staff dashboard matching the staff portal design instead of reusing the admin dashboard
+- Complete: Add staff attendance summary, current-shift/check-in state, weekly-hours summary, and attendance history presentation
+- Complete: Add staff leave-request overview cards and a guided leave-request flow
 - Not Started: Keep staff views responsive and ensure admin financial and employee-management UI never renders
 
 ### Remaining Admin Pages

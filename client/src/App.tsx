@@ -4,7 +4,7 @@ import { AppLayout } from './components/AppLayout';
 import { RequireRole } from './components/RequireRole';
 import { AttendancePage } from './pages/AttendancePage';
 import { AcceptInvitationPage } from './pages/AcceptInvitationPage';
-import { DashboardPage } from './pages/DashboardPage';
+import { DashboardHome } from './pages/DashboardHome';
 import { EmployeesPage } from './pages/EmployeesPage';
 import { ExpensesPage } from './pages/ExpensesPage';
 import { LeavePage } from './pages/LeavePage';
@@ -30,7 +30,7 @@ export default function App() {
         }
       >
         <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<DashboardHome />} />
         <Route
           path="/employees"
           element={
