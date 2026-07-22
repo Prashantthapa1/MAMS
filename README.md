@@ -67,26 +67,19 @@ An administrator can invite a person by email through `POST /api/auth/invitation
 
 Access roles are `STAFF`, `MANAGER`, and `ADMIN`. Managers can access operational areas (employees, attendance, leave management, salaries, revenue, expenses, profit, and reports); only administrators can manage invitations, access roles, and company settings. Configure `APP_URL` and all `SMTP_*` variables for invitation delivery.
 
-## Railway Deployment
+## Render Deployment
 
-Create three Railway services: PostgreSQL, `server`, and `client`. Set each app service root directory to its corresponding folder. The included `railway.json` files build and start each service.
+Use the included `render.yaml` blueprint to create the backend, frontend, and PostgreSQL database on Render. Connect the GitHub repository in Render and it will deploy commits from `main` automatically.
 
-Set these backend variables in Railway:
+Set these backend variables in Render:
 
 - `DATABASE_URL` — reference the PostgreSQL service's connection URL
 - `JWT_SECRET` — a strong secret of at least 16 characters
 - `CORS_ORIGIN` — the public frontend URL
 - Cloudinary variables when employee image upload is enabled: `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
 
-Set `VITE_API_URL` on the frontend service to `https://<backend-domain>/api` before its build. After deploying the backend, run its migrations with `railway run --service <backend-service> -- npm run db:migrate`.
+Set `VITE_API_URL` on the frontend service to `https://<backend-domain>/api` before its build. Then set backend `APP_URL` and `CORS_ORIGIN` to the frontend Render URL. The backend runs migrations during deployment.
 
 ## GitHub Actions
 
-On pushes to `main`, the workflow tests and builds the project, deploys the backend, runs migrations, and deploys the frontend. Add these repository secrets:
-
-- `RAILWAY_TOKEN`
-- `RAILWAY_PROJECT_ID`
-- `RAILWAY_BACKEND_SERVICE`
-- `RAILWAY_FRONTEND_SERVICE`
-
-Railway application variables such as `DATABASE_URL`, `JWT_SECRET`, `CORS_ORIGIN`, and `VITE_API_URL` remain in Railway rather than GitHub secrets.
+On pushes to `main` and pull requests, GitHub Actions tests and builds the project. Render handles deployment through its GitHub integration, so no deployment token is required in GitHub Actions. Keep `DATABASE_URL`, `JWT_SECRET`, `CORS_ORIGIN`, and `VITE_API_URL` in Render.
