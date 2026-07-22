@@ -24,11 +24,11 @@ Status values:
 - Complete: Add React Router shell
 - Complete: Add reusable layout components
 - Complete: Add placeholder pages for required navigation
-- Pending: Connect frontend to real API endpoints
-- Pending: Add loading, empty, and error states across data pages
-- Pending: Add confirmation dialogs before delete actions
-- Not Started: Add Chart.js dashboard charts
-- Not Started: Implement responsive sidebar polish
+- Complete: Connect frontend to real API endpoints
+- Complete: Add loading, empty, and error states across data pages
+- Complete: Add confirmation dialogs before delete actions
+- Complete: Add Chart.js dashboard charts
+- Complete: Implement responsive sidebar polish
 
 ## Backend Foundation
 - Complete: Add Express TypeScript server
