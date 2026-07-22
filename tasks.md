@@ -16,7 +16,7 @@ Status values:
 - Complete: Install dependencies
 - Complete: Run initial frontend build
 - Complete: Run initial backend build
-- Pending: Create first Git commit
+- Complete: Create first Git commit
 
 ## Frontend Foundation
 - Complete: Add Vite configuration
