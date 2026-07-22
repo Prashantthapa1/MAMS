@@ -1,4 +1,6 @@
 import type { Request, Response } from 'express';
+import { countEmployees } from '../services/employeeService.js';
+import { countApprovedLeavesToday } from '../services/leaveService.js';
 import { mockDataService } from '../services/mockDataService.js';
 
 function sendData(response: Response, data: unknown) {
@@ -20,20 +22,26 @@ function getParamId(request: Request) {
 }
 
 export const appDataController = {
-  dashboard: (_request: Request, response: Response) => sendData(response, mockDataService.getDashboard()),
-  employees: (_request: Request, response: Response) => sendData(response, mockDataService.getEmployees()),
+  dashboard: async (_request: Request, response: Response) => {
+    const dashboard = mockDataService.getDashboard();
+    const [totalEmployees, onLeaveToday] = await Promise.all([countEmployees(), countApprovedLeavesToday()]);
+
+    sendData(response, {
+      ...dashboard,
+      summary: {
+        ...dashboard.summary,
+        totalEmployees,
+        onLeaveToday,
+      },
+    });
+  },
   attendance: (_request: Request, response: Response) => sendData(response, mockDataService.getAttendance()),
   leave: (_request: Request, response: Response) => sendData(response, mockDataService.getLeaveRequests()),
   salaries: (_request: Request, response: Response) => sendData(response, mockDataService.getSalaries()),
   revenue: (_request: Request, response: Response) => sendData(response, mockDataService.getRevenue()),
-  expenses: (_request: Request, response: Response) => sendData(response, mockDataService.getExpenses()),
   profit: (_request: Request, response: Response) => sendData(response, mockDataService.getProfit()),
   reports: (_request: Request, response: Response) => sendData(response, mockDataService.getReports()),
   settings: (_request: Request, response: Response) => sendData(response, mockDataService.getSettings()),
-  deleteEmployee: (request: Request, response: Response) =>
-    sendDeleted(response, mockDataService.deleteEmployee(getParamId(request))),
   deleteRevenue: (request: Request, response: Response) =>
     sendDeleted(response, mockDataService.deleteRevenue(getParamId(request))),
-  deleteExpense: (request: Request, response: Response) =>
-    sendDeleted(response, mockDataService.deleteExpense(getParamId(request))),
 };

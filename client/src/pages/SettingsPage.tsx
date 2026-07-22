@@ -1,32 +1,14 @@
+import { useEffect, useState, type FormEvent } from 'react';
+import { api } from '../api/client';
 import type { Settings } from '../api/types';
 import { DataState } from '../components/DataState';
 import { PageHeader } from '../components/PageHeader';
 import { useApiResource } from '../hooks/useApiResource';
-
+const emptySettings: Settings = { companyName: '', companyAddress: '', currency: 'NPR' };
 export function SettingsPage() {
-  const { data, isLoading, error } = useApiResource<Settings>('/settings');
-
-  return (
-    <>
-      <PageHeader title="Settings" description="Manage company name, address, and currency." />
-      <DataState isLoading={isLoading} error={error} isEmpty={!data} emptyMessage="No settings found.">
-        <section className="max-w-2xl rounded-lg border border-zinc-200 bg-white p-5">
-          <dl className="divide-y divide-zinc-100 text-sm">
-            <div className="grid gap-1 py-3 sm:grid-cols-3">
-              <dt className="font-medium text-zinc-500">Company Name</dt>
-              <dd className="text-zinc-950 sm:col-span-2">{data?.companyName}</dd>
-            </div>
-            <div className="grid gap-1 py-3 sm:grid-cols-3">
-              <dt className="font-medium text-zinc-500">Company Address</dt>
-              <dd className="text-zinc-950 sm:col-span-2">{data?.companyAddress}</dd>
-            </div>
-            <div className="grid gap-1 py-3 sm:grid-cols-3">
-              <dt className="font-medium text-zinc-500">Currency</dt>
-              <dd className="text-zinc-950 sm:col-span-2">{data?.currency}</dd>
-            </div>
-          </dl>
-        </section>
-      </DataState>
-    </>
-  );
+  const { data, isLoading, error, reload } = useApiResource<Settings>('/settings');
+  const [form, setForm] = useState<Settings>(emptySettings); const [message, setMessage] = useState<string | null>(null); const [formError, setFormError] = useState<string | null>(null); const [isSaving, setIsSaving] = useState(false);
+  useEffect(() => { if (data) setForm(data); }, [data]);
+  async function save(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setMessage(null); setFormError(null); setIsSaving(true); try { await api.put('/settings', form); await reload(); setMessage('Company settings saved.'); } catch (saveError) { console.error(saveError); setFormError('Unable to save settings. Check all fields and try again.'); } finally { setIsSaving(false); } }
+  return <><PageHeader title="Settings" description="Manage your company name, address, and currency." />{message && <p className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">{message}</p>}<DataState isLoading={isLoading} error={error} isEmpty={!data} emptyMessage="No settings found."><section className="max-w-2xl rounded-lg border border-zinc-200 bg-white p-5"><form className="space-y-4" onSubmit={save}><label className="block"><span className="text-sm font-medium text-zinc-700">Company name</span><input className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm" value={form.companyName} onChange={(event) => setForm({ ...form, companyName: event.target.value })} required maxLength={160} /></label><label className="block"><span className="text-sm font-medium text-zinc-700">Company address</span><textarea className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm" value={form.companyAddress} onChange={(event) => setForm({ ...form, companyAddress: event.target.value })} required maxLength={500} rows={3} /></label><label className="block"><span className="text-sm font-medium text-zinc-700">Currency code</span><input className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm uppercase" value={form.currency} onChange={(event) => setForm({ ...form, currency: event.target.value.toUpperCase() })} required minLength={3} maxLength={8} /></label>{formError && <p className="rounded-md bg-rose-50 px-3 py-2 text-sm text-rose-700">{formError}</p>}<button className="rounded-md bg-zinc-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-70" disabled={isSaving}>{isSaving ? 'Saving...' : 'Save settings'}</button></form></section></DataState></>;
 }
