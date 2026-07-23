@@ -12,10 +12,26 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
-      - run: npm ci
-      - run: npm ci --prefix server
-      - run: npm ci --prefix client
-      - run: npm test
-      - run: npm run build
+          cache-dependency-path: |
+            server/package-lock.json
+            client/package-lock.json
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+      - name: Test server
+        working-directory: server
+        run: npm test
+      - name: Test client
+        working-directory: client
+        run: npm test
+      - name: Build server
+        working-directory: server
+        run: npm run build
+      - name: Build client
+        working-directory: client
+        run: npm run build
