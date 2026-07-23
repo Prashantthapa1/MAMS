@@ -12,6 +12,13 @@ Status values: Complete, Pending, Not Started.
 - Complete: Add database-backed authentication, staff invitations, email delivery configuration, and manager access role
 - Pending: Configure Railway project variables, services, and GitHub repository secrets, then perform the first production deployment
 
+### Staff Onboarding and Attendance Calendar
+- Pending: Keep the staff onboarding flow email-based so admin invites a staff member by email, staff receives an email link, and staff sets their own password before first login
+- Pending: Add password reset flow through email code or reset link so staff can recover access without admin involvement
+- Pending: Add a staff attendance calendar view with color states for present, late present, absent, and work-from-home
+- Pending: Treat Saturday as a default holiday in Nepal and allow admin to mark any date as a company holiday for all staff
+- Pending: Show holiday and attendance markers consistently in both staff and admin views
+
 ## Frontend Completion (Design Alignment)
 
 Design references: `design/clarity_ems/DESIGN.md`, `design/login_staffsync_pro`, `design/admin_dashboard_staffsync_pro`, `design/employees_staffsync_pro`, and `design/staff_portal_staffsync_pro`.
@@ -44,14 +51,14 @@ Design references: `design/clarity_ems/DESIGN.md`, `design/login_staffsync_pro`,
 - Complete: Create a dedicated staff dashboard matching the staff portal design instead of reusing the admin dashboard
 - Complete: Add staff attendance summary, current-shift/check-in state, weekly-hours summary, and attendance history presentation
 - Complete: Add staff leave-request overview cards and a guided leave-request flow
-- Not Started: Keep staff views responsive and ensure admin financial and employee-management UI never renders
+- Complete: Keep staff views responsive and ensure admin financial and employee-management UI never renders
 
 ### Remaining Admin Pages
-- Not Started: Restyle attendance, leave, salaries, revenue, expenses, profit, reports, and settings with the shared design system
-- Not Started: Add consistent action bars, table toolbars, filter treatments, and mobile-safe card/table variants
-- Not Started: Add polished success/error notices and destructive-action feedback throughout the interface
+- Complete: Restyle attendance, leave, salaries, revenue, expenses, profit, reports, and settings with the shared design system
+- Complete: Add consistent action bars, table toolbars, filter treatments, and mobile-safe card/table variants
+- Complete: Add polished success/error notices and destructive-action feedback throughout the interface
 
 ### Frontend Quality
-- Not Started: Add component tests for auth guards, role navigation, key forms, and CSV export controls
-- Not Started: Run an accessibility pass for labels, keyboard navigation, focus visibility, contrast, and responsive behavior
-- Not Started: Review bundle size and code-split large chart/page bundles
+- Complete: Add component tests for auth guards, role navigation, key forms, and CSV export controls
+- Complete: Run an accessibility pass for labels, keyboard navigation, focus visibility, contrast, and responsive behavior
+- Complete: Review bundle size and code-split large chart/page bundles

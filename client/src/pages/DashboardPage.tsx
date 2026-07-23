@@ -1,5 +1,5 @@
 import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Tooltip } from 'chart.js';
-import { Bar, Doughnut, Line } from 'react-chartjs-2';
+import { Doughnut, Line } from 'react-chartjs-2';
 import { Banknote, BriefcaseBusiness, CircleX, ReceiptText, TrendingUp, UserCheck, UsersRound } from 'lucide-react';
 import type { DashboardData } from '../api/types';
 import { useAuth } from '../auth/AuthContext';

@@ -4,6 +4,7 @@ import type { Revenue } from '../api/types';
 import { ConfirmDeleteButton } from '../components/ConfirmDeleteButton';
 import { DataState } from '../components/DataState';
 import { PageHeader } from '../components/PageHeader';
+import { Notice } from '../components/Notice';
 import { useApiResource } from '../hooks/useApiResource';
 import { formatCurrency, formatDate } from '../utils/format';
 
@@ -88,11 +89,7 @@ export function RevenuePage() {
     <>
       <PageHeader title="Revenue" description="Record, edit, and remove revenue entries." />
 
-      {message ? (
-        <section className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-          {message}
-        </section>
-      ) : null}
+      {message ? <Notice tone="success">{message}</Notice> : null}
 
       <div className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
         <section className="rounded-lg border border-zinc-200 bg-white p-5">
@@ -186,7 +183,7 @@ export function RevenuePage() {
             isEmpty={!data?.length}
             emptyMessage="No revenue records found."
           >
-            <div className="overflow-x-auto">
+            <div className="data-table-wrap overflow-x-auto">
               <table className="min-w-full divide-y divide-zinc-200 text-sm">
                 <thead className="bg-zinc-50 text-left text-xs font-semibold uppercase text-zinc-500">
                   <tr>

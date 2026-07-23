@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Search, UsersRound } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { api } from '../api/client';
 import type { Employee } from '../api/types';
@@ -275,7 +275,7 @@ export function EmployeesPage() {
               <h2 className="text-xl font-semibold text-slate-950">Employee directory</h2>
               <p className="text-sm text-slate-500">{employeeCount} employees in your organization</p>
             </div>
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row"><label className="relative flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18}/><input className="w-full rounded-md border border-slate-300 py-2 pl-10 pr-3 text-sm" placeholder="Search employees, positions..." value={query} onChange={(e) => { setQuery(e.target.value); setPage(1); }}/></label><select className="rounded-md border border-slate-300 px-3 py-2 text-sm" value={statusFilter} onChange={(e) => { setStatusFilter(e.target.value as typeof statusFilter); setPage(1); }}><option value="All">All statuses</option><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row"><label className="relative flex-1"><span className="sr-only">Search employees</span><Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18}/><input className="w-full rounded-md border border-slate-300 py-2 pl-10 pr-3 text-sm" placeholder="Search employees, positions..." value={query} onChange={(e) => { setQuery(e.target.value); setPage(1); }}/></label><label><span className="sr-only">Filter by employee status</span><select className="rounded-md border border-slate-300 px-3 py-2 text-sm" value={statusFilter} onChange={(e) => { setStatusFilter(e.target.value as typeof statusFilter); setPage(1); }}><option value="All">All statuses</option><option value="Active">Active</option><option value="Inactive">Inactive</option></select></label></div>
           </div>
 
           <DataState

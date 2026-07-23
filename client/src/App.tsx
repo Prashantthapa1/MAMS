@@ -1,24 +1,26 @@
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { RequireAuth } from './components/RequireAuth';
 import { AppLayout } from './components/AppLayout';
 import { RequireRole } from './components/RequireRole';
-import { AttendancePage } from './pages/AttendancePage';
-import { AcceptInvitationPage } from './pages/AcceptInvitationPage';
-import { DashboardHome } from './pages/DashboardHome';
-import { EmployeesPage } from './pages/EmployeesPage';
-import { ExpensesPage } from './pages/ExpensesPage';
-import { LeavePage } from './pages/LeavePage';
-import { LoginPage } from './pages/LoginPage';
-import { ProfitPage } from './pages/ProfitPage';
-import { ReportsPage } from './pages/ReportsPage';
-import { RevenuePage } from './pages/RevenuePage';
-import { SalariesPage } from './pages/SalariesPage';
-import { SettingsPage } from './pages/SettingsPage';
-import { StaffAccessPage } from './pages/StaffAccessPage';
-import { EmployeeProfilePage } from './pages/EmployeeProfilePage';
+const AttendancePage = lazy(() => import('./pages/AttendancePage').then(({ AttendancePage }) => ({ default: AttendancePage })));
+const AcceptInvitationPage = lazy(() => import('./pages/AcceptInvitationPage').then(({ AcceptInvitationPage }) => ({ default: AcceptInvitationPage })));
+const DashboardHome = lazy(() => import('./pages/DashboardHome').then(({ DashboardHome }) => ({ default: DashboardHome })));
+const EmployeesPage = lazy(() => import('./pages/EmployeesPage').then(({ EmployeesPage }) => ({ default: EmployeesPage })));
+const ExpensesPage = lazy(() => import('./pages/ExpensesPage').then(({ ExpensesPage }) => ({ default: ExpensesPage })));
+const LeavePage = lazy(() => import('./pages/LeavePage').then(({ LeavePage }) => ({ default: LeavePage })));
+const LoginPage = lazy(() => import('./pages/LoginPage').then(({ LoginPage }) => ({ default: LoginPage })));
+const ProfitPage = lazy(() => import('./pages/ProfitPage').then(({ ProfitPage }) => ({ default: ProfitPage })));
+const ReportsPage = lazy(() => import('./pages/ReportsPage').then(({ ReportsPage }) => ({ default: ReportsPage })));
+const RevenuePage = lazy(() => import('./pages/RevenuePage').then(({ RevenuePage }) => ({ default: RevenuePage })));
+const SalariesPage = lazy(() => import('./pages/SalariesPage').then(({ SalariesPage }) => ({ default: SalariesPage })));
+const SettingsPage = lazy(() => import('./pages/SettingsPage').then(({ SettingsPage }) => ({ default: SettingsPage })));
+const StaffAccessPage = lazy(() => import('./pages/StaffAccessPage').then(({ StaffAccessPage }) => ({ default: StaffAccessPage })));
+const EmployeeProfilePage = lazy(() => import('./pages/EmployeeProfilePage').then(({ EmployeeProfilePage }) => ({ default: EmployeeProfilePage })));
 
 export default function App() {
   return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-[#faf8ff] text-sm text-slate-600">Loading workspace...</div>}>
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/accept-invitation" element={<AcceptInvitationPage />} />
@@ -56,7 +58,14 @@ export default function App() {
           }
         />
         <Route path="/leave" element={<LeavePage />} />
-        <Route path="/salaries" element={<SalariesPage />} />
+        <Route
+          path="/salaries"
+          element={
+            <RequireRole allowedRoles={['ADMIN', 'MANAGER']}>
+              <SalariesPage />
+            </RequireRole>
+          }
+        />
         <Route
           path="/revenue"
           element={
@@ -79,5 +88,6 @@ export default function App() {
         <Route path="/staff-access" element={<RequireRole allowedRoles={['ADMIN']}><StaffAccessPage /></RequireRole>} />
       </Route>
     </Routes>
+    </Suspense>
   );
 }

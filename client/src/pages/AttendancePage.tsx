@@ -5,6 +5,7 @@ import { useAuth } from '../auth/AuthContext';
 import { ConfirmDeleteButton } from '../components/ConfirmDeleteButton';
 import { DataState } from '../components/DataState';
 import { PageHeader } from '../components/PageHeader';
+import { Notice } from '../components/Notice';
 import { StatusBadge } from '../components/StatusBadge';
 import { useApiResource } from '../hooks/useApiResource';
 import { formatDate } from '../utils/format';
@@ -209,11 +210,7 @@ export function AttendancePage() {
         description={isAdmin ? 'Track check in, check out, status, and working hours.' : 'View your attendance history.'}
       />
 
-      {message ? (
-        <section className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-          {message}
-        </section>
-      ) : null}
+      {message ? <Notice tone="success">{message}</Notice> : null}
 
       <section className="mb-6 rounded-lg border border-zinc-200 bg-white p-4">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -394,7 +391,7 @@ export function AttendancePage() {
             isEmpty={!attendance?.length}
             emptyMessage="No attendance records found."
           >
-            <div className="overflow-x-auto">
+            <div className="data-table-wrap overflow-x-auto">
               <table className="min-w-full divide-y divide-zinc-200 text-sm">
                 <thead className="bg-zinc-50 text-left text-xs font-semibold uppercase text-zinc-500">
                   <tr>
